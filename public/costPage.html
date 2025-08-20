@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ChickKo BKK</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-chickkored">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/img/ChickKoLogoText.jpg" alt="CHICK KO" style="height: 40px;">
+            </a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link text-light" href="index.html">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="orderPage.html">Order</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="previousOrder.html">เพิ่มเมนูย้อนหลัง</a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li><a class="dropdown-item" href="menuSetupPage.html">Menu Setup</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-1">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">รายงานต้นทุน</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="row p-2 mb-2 bg-chickkored bg-opacity-10 border border-info border-start-0 rounded">
+            <div class="col-md-12 mb-2">
+                <label for="dateInput" class="form-label text-white">เลือกวันที่</label>
+                <input type="date" id="dateInput" class="form-control">
+            </div>
+
+            <!-- Dropdown for selecting type -->
+            <div class="col-md-12 mb-2">
+                <label for="orderType" class="form-label fw-bold text-white">ราคาต้นทุนของ</label>
+                <input type="number" min="0" id="costInput" class="form-control border-success" inputmode="numeric">
+            </div>
+
+              <!-- Dropdown for selecting type -->
+              <div class="col-md-12 mb-2">
+                <label for="orderType" class="form-label fw-bold text-white">ราคาต้นทุนอื่นๆ</label>
+                <input type="number" min="0" id="costOrtherInput" class="form-control border-success" inputmode="numeric">
+            </div>
+
+            <div class="col-md-12 mb-2">
+                <label for="costRemark" class="form-label text-white">หมายเหตุ</label>
+                <textarea class="form-control" placeholder="ใส่หมายเหตุ" id="costRemark" style="height: 100px"></textarea>
+            </div>
+
+            <div class="col-md-12 d-flex align-items-end mb-2">
+                <button id="saveCost" class="btn btn-primary w-100">บันทีก</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4 d-flex ">
+
+            </div>
+            <div class="col-md-4 d-flex ">
+                <button id="fetchDataBtn" class="btn btn-secondary  w-100">ดึงข้อมูล</button>
+            </div>
+            <div class="col-md-4 d-flex ">
+                
+            </div>
+
+        </div>
+
+        <div class="table-responsive">
+            <table id="reportTable" class="table table-bordered table-striped" style="width:100%">
+                <thead class="table-dark">
+                    <tr>
+                        <th>วันที่</th>
+                        <th>ราคาต้นทุนรวม</th>
+                        <th>ราคาต้นทุนของ</th>
+                        <th>ราคาต้นทุนอื่นๆ</th>
+                        <th>หมายเหตุ</th>
+                        <th>เครื่องมือ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-3 bg-chickkored mt-auto">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; CHICK KO FOOD ORDERING by SKET 2024</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="module" src="assets/js/cost.js"></script>
+
+</body>
+
+</html>

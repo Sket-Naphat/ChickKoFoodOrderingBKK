@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>ChickKo BKK</title>
+
+  <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="assets/css/styles.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navigation-->
+  <!-- ใช้ div เพื่อโหลด navbar -->
+  <!-- <div id="navbar-container"></div> -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-chickkored">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/img/ChickKoLogoText.jpg" alt="CHICK KO" style="height: 40px;">
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link text-light" href="index.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="orderPage.html">Order</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">Admin</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="previousOrder.html">เพิ่มเมนูย้อนหลัง</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item" href="menuSetupPage.html">Menu Setup</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Header-->
+  <header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-1">
+      <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">ตรวจนับคลัง</h1>
+        <!-- <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p> -->
+      </div>
+    </div>
+
+
+  </header>
+
+
+   
+
+    <!-- Section-->
+    <form id="orderForm">
+ 
+
+    <div class="position-relative">
+        <div class="position-absolute top-0 end-0 mt-2 me-4" style="z-index: 1050;">
+          <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal" data-bs-target="#addNewMenu">
+            <i class="bi-cart-fill me-1"></i>
+            เพิ่มเมนู
+          </button>
+        </div>
+      </div>  
+    <div class="container">
+      <!-- Tab Content -->
+      <div class="tab-content" id="categoryTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuList" class="row  row-cols-md-12 row-cols-xl-12 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        
+      </div>
+
+
+    </form>
+  </div>
+
+  <!-- Footer-->
+  <footer class="py-3 bg-chickkored mt-auto">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; CHICK KO FOOD ORDERING by SKET 2024</p>
+    </div>
+  </footer>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="addNewMenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">เพิ่มเมนูใหม่</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editMenuForm">
+        <div class="modal-body">
+          <!-- ชื่อเมนู -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">ชื่อรายการ</span>
+            <input type="text" id="addItemName" name="itemName" aria-label="Item Name" class="form-control" placeholder="ใส่ชื่อรายการ">
+          </div>
+
+          <!-- จำนวนคงเหลือ -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">จำนวนที่ต้องใช้</span>
+            <input type="number" id="addQTY" name="qty" aria-label="Menu Cost" class="form-control" placeholder="ใส่จำนวนที่ต้องใช้" min="0">
+          </div>
+          <!-- ชื่อหน่วย -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">ชื่อหน่วย</span>
+            <input type="text" id="addUnit" name="unit" aria-label="unit" class="form-control" placeholder="ใส่ชื่อหน่วยเช่น แพ็ค , กล่อง ,ชิ้น">
+          </div>
+        <!-- หมวดหมู่ -->
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="menuCategory">หมวดหมู่</label>
+          <select class="form-select" id="addMenuStockCategory" name="category">
+            <option value="1">เนื้อสัตว์/ของสด</option>
+            <option value="2">เส้น/ข้าว/แป้ง</option>
+            <option value="3">ชีส/ไข่ปลา/ไข่หวาน/ครีม</option>
+            <option value="4">เนย/แยม/ไอศครีม</option>
+            <option value="5">ผัก/ผลไม้/สมุนไพร</option>
+            <option value="6">ของทอด/น้ำมัน</option>
+            <option value="7">ขนม/ของกินเล่น</option>
+            <option value="8">เครื่องปรุง</option>
+          </select>
+        </div>
+        <!-- โซน -->
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="menuCategory">หมวดหมู่ตามโซน</label>
+          <select class="form-select" id="addMenuStockPlace" name="category">
+            <option value="1">โซนครัว</option>
+            <option value="2">โซนเคาเตอร์</option>
+            <option value="3">โซนตู้เย็น</option>
+            <option value="4">โซนซิ้งล้างจาน</option>
+          </select>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+          <button type="submit" id="addMenuSubmit" class="btn btn-success">ยืนยันการเพิ่ม</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- Bootstrap core JS-->
+  <script src="assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="assets/js/stock.js"></script>
+</body>
+
+</html>

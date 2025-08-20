@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>ChickKo BKK</title>
+
+  <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="assets/css/styles.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navigation-->
+  <!-- ใช้ div เพื่อโหลด navbar -->
+  <!-- <div id="navbar-container"></div> -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-chickkored">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/img/ChickKoLogoText.jpg" alt="CHICK KO" style="height: 40px;">
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link text-light" href="index.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="orderPage.html">Order</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">Admin</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="previousOrder.html">เพิ่มเมนูย้อนหลัง</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item" href="menuSetupPage.html">Menu Setup</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Header-->
+  <header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-1">
+      <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">SETUP MENU</h1>
+        <!-- <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p> -->
+      </div>
+    </div>
+
+
+  </header>
+
+
+   
+
+    <!-- Section-->
+    <form id="orderForm">
+ 
+      
+      <div class="container px-4 px-lg-5 my-1">
+   
+      <ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="all-tab" data-bs-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">ทั้งหมด</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="friedChicken-tab" data-bs-toggle="tab" href="#friedChicken" role="tab" aria-controls="friedChicken" aria-selected="false">ไก่ทอด</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="meal-tab" data-bs-toggle="tab" href="#meal" role="tab" aria-controls="meal" aria-selected="false">กินจริงจัง</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="noodle-tab" data-bs-toggle="tab" href="#noodle" role="tab" aria-controls="noodle" aria-selected="false">เมนูเส้น</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="snack-tab" data-bs-toggle="tab" href="#snack" role="tab" aria-controls="snack" aria-selected="false">ของทานเล่น</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="topping-tab" data-bs-toggle="tab" href="#topping" role="tab" aria-controls="topping" aria-selected="false">Topping</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="dessert-tab" data-bs-toggle="tab" href="#dessert" role="tab" aria-controls="dessert" aria-selected="false">ของหวาน</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="beverage-tab" data-bs-toggle="tab" href="#beverage" role="tab" aria-controls="beverage" aria-selected="false">เครื่องดื่ม</a>
+        </li>
+      </ul>
+           
+    </div>
+    <div class="position-relative">
+        <div class="position-absolute top-0 end-0 mt-2 me-4" style="z-index: 1050;">
+          <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal" data-bs-target="#addNewMenu">
+            <i class="bi-cart-fill me-1"></i>
+            เพิ่มเมนู
+          </button>
+        </div>
+      </div>  
+    <div class="container">
+      <!-- Tab Content -->
+      <div class="tab-content" id="categoryTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="friedChicken" role="tabpanel" aria-labelledby="friedChicken-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenufriedChickenList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="meal" role="tabpanel" aria-labelledby="meal-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuMealList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+       <div class="tab-pane fade" id="noodle" role="tabpanel" aria-labelledby="noodle-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuNoodleList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuSnackList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+ 
+        <div class="tab-pane fade" id="topping" role="tabpanel" aria-labelledby="topping-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuToppingList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="dessert" role="tabpanel" aria-labelledby="dessert-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuDessertList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="beverage" role="tabpanel" aria-labelledby="beverage-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="editMenuBeverageList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+
+  <!-- Footer-->
+  <footer class="py-3 bg-chickkored mt-auto">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; CHICK KO FOOD ORDERING by SKET 2024</p>
+    </div>
+  </footer>
+
+
+
+  <!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true" role="dialog" aria-modal="true">
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="staticBackdropLabel">แก้เมนู</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="newMenuForm">
+      <div class="modal-body">
+        <!-- ชื่อเมนู -->
+        <div class="input-group mb-3">
+          <span class="input-group-text">ชื่อเมนู</span>
+          <input type="text" id="editMenuName" name="name" aria-label="Menu Name" class="form-control" placeholder="ใส่ชื่อเมนู">
+        </div>
+        <!-- ราคา -->
+        <div class="input-group mb-3">
+          <span class="input-group-text">ราคา</span>
+          <input type="number" id="editMenuPrice" name="price" aria-label="Menu Price" class="form-control" placeholder="ใส่ราคา">
+        </div>
+        <!-- ต้นทุน -->
+        <div class="input-group mb-3">
+          <span class="input-group-text">ต้นทุน</span>
+          <input type="number" id="editMenuCost" name="cost" aria-label="Menu Cost" class="form-control" placeholder="ใส่ต้นทุน">
+        </div>
+        <!-- หมวดหมู่ -->
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="menuCategory">หมวดหมู่</label>
+          <select class="form-select" id="editMenuCategory" name="category">
+            <option value="FriedChicken">ไก่ทอด</option>
+            <option value="Meal">กินจริงจัง</option>
+            <option value="Noodle">เมนูเส้น</option>
+            <option value="Snack">ของทานเล่น</option>
+            <option value="Topping">Topping</option>
+            <option value="Dessert">ของหวาน</option>
+            <option value="Beverage">เครื่องดื่ม</option>
+          </select>
+        </div>
+        <!-- การใช้งาน -->
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="editMenuActive">การใช้งาน</label>
+          <select class="form-select" id="editMenuActive" name="active">
+            <option value="true">เปิดใช้งาน</option>
+            <option value="false">ปิดใช้งาน</option>
+          </select>
+        </div>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="editMenuAddTopping">เพิ่มท้อปปิ้ง</label>
+          <select class="form-select" id="editMenuAddTopping" name="addtopping">
+            <option value="true">ได้</option>
+            <option value="false">ไม่ได้</option>
+          </select>
+        </div>
+        <!-- รูปภาพเมนู -->
+        <!-- <div class="input-group mb-3">
+          <label class="input-group-text" for="menuImage">รูปภาพเมนู</label>
+          <input type="file" id="menuImage" name="image" class="form-control" accept="image/*">
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        <button type="submit" id="editMenuSubmit" class="btn btn-success">ยืนยันการแก้ไข</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="addNewMenu" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">เพิ่มเมนูใหม่</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editMenuForm">
+        <div class="modal-body">
+          <!-- ชื่อเมนู -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">ชื่อเมนู</span>
+            <input type="text" id="addMenuName" name="name" aria-label="Menu Name" class="form-control" placeholder="ใส่ชื่อเมนู">
+          </div>
+          <!-- ราคา -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">ราคา</span>
+            <input type="number" id="addMenuPrice" name="price" aria-label="Menu Price" class="form-control" placeholder="ใส่ราคา">
+          </div>
+          <!-- ต้นทุน -->
+          <div class="input-group mb-3">
+            <span class="input-group-text">ต้นทุน</span>
+            <input type="number" id="addMenuCost" name="cost" aria-label="Menu Cost" class="form-control" placeholder="ใส่ต้นทุน">
+          </div>
+          <!-- หมวดหมู่ -->
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="menuCategory">หมวดหมู่</label>
+            <select class="form-select" id="addMenuCategory" name="category">
+              <option value="FriedChicken">ไก่ทอด</option>
+              <option value="Meal">กินจริงจัง</option>
+              <option value="Noodle">เมนูเส้น</option>
+              <option value="Snack">ของทานเล่น</option>
+              <option value="Topping">Topping</option>
+              <option value="Dessert">ของหวาน</option>
+              <option value="Beverage">เครื่องดื่ม</option>
+            </select>
+          </div>
+          <!-- การใช้งาน -->
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="menuActive">การใช้งาน</label>
+            <select class="form-select" id="addMenuActive" name="active">
+              <option value="true">เปิดใช้งาน</option>
+              <option value="false">ปิดใช้งาน</option>
+            </select>
+          </div>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="menuAddTopping">เพิ่มท้อปปิ้ง</label>
+            <select class="form-select" id="addMenuAddTopping" name="addTopping">
+              <option value="true">ได้</option>
+              <option value="false">ไม่ได้</option>
+            </select>
+          </div>
+          <!-- รูปภาพเมนู -->
+          <!-- <div class="input-group mb-3">
+            <label class="input-group-text" for="menuImage">รูปภาพเมนู</label>
+            <input type="file" id="menuImage" name="image" class="form-control" accept="image/*">
+          </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+          <button type="submit" id="addMenuSubmit" class="btn btn-success">ยืนยันการเพิ่ม</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- Bootstrap core JS-->
+  <script src="assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="assets/js/menuSetup.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ChickKo BKK</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet" />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-chickkored">
+        <div class="container px-4 px-lg-5">
+          <a class="navbar-brand" href="index.html">
+            <img src="assets/img/ChickKoLogoText.jpg" alt="CHICK KO" style="height: 40px;">
+          </a>
+          <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+              <li class="nav-item"><a class="nav-link text-light" href="index.html">Menu</a></li>
+              <li class="nav-item"><a class="nav-link text-light" href="orderPage.html">Order</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">Admin</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="previousOrder.html">เพิ่มเมนูย้อนหลัง</a></li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li><a class="dropdown-item" href="menuSetupPage.html">Menu Setup</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <!-- Header -->
+    <header class="bg-dark py-1">
+        <div class="container px-4 px-lg-5 my-1">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">รายงานการขาย</h1><p class="lead fw-normal text-white-50 mb-0">รายงานการขายของร้าน ChickKo BKK</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container my-4">
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+            <label for="dateInput" class="form-label">เลือกวันที่</label>
+            <input type="date" id="dateInput" class="form-control">
+            </div>
+    
+            <!-- Dropdown for selecting type -->
+            <div class="col-md-4">
+            <label for="orderType" class="form-label">ประเภท</label>
+            <select id="orderType" class="form-select">
+                <option value="store">หน้าร้าน</option>
+                <option value="grab">Grab</option>
+            </select>
+            </div>
+    
+            <div class="col-md-4 d-flex align-items-end">
+            <button id="fetchDataBtn" class="btn btn-primary w-100">ค้นหา</button>
+            </div>
+            <br>
+            <!-- <div class="col-md-2 d-flex align-items-end">
+              <button id="btn_insertDataToChickkoDB" class="btn btn-primary w-100" disabled>บันทึกข้อมูลไปยังฐานข้อมูลหลัก</button>
+            </div> -->
+        </div>
+
+        <div class="table-responsive">
+            <table id="reportTable" class="table table-bordered table-striped" style="width:100%">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ชื่อเมนู</th>
+                        <th>ชื่อลูกค้า</th>
+                        <th>เวลาสั่งอาหาร</th>
+                        <th>เวลาเสิร์ฟ</th>
+                        <th>เวลาจ่ายเงิน</th>
+                        <th>ทานที่</th>
+                        <th>ราคาขายรวม</th>
+                        <th>ราคาขายโอนจ่าย</th>
+                        <th>ราคาขายเงินสด</th>                        
+                        <th>ราคาขายต่อหน่วย</th>
+                        <th>จำนวนที่ขาย</th>
+                        <th>ต้นทุน</th>
+                        <th>ต้นทุนต่อหน่วย</th>
+                        <th>กำไร</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="py-3 bg-chickkored mt-auto">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; CHICK KO FOOD ORDERING by SKET 2024</p>
+        </div>
+    </footer>
+
+    
+
+  <!-- Modal -->
+<div class="modal fade" id="loginApiModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="loginApiModelLabel" aria-hidden="true" role="dialog" aria-modal="true">
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="loginApiModelLabel">Log in</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <form id="loginApiForm">
+      <div class="modal-body">
+        <!-- ชื่อเมนู -->
+        <div class="input-group mb-3">
+          <span class="input-group-text">Username</span>
+          <input type="text" id="username" class="form-control" >
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">Password</span>
+          <input type="password" id="password" class="form-control" >
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+        <button type="button" id="btn_loginApi" class="btn btn-success">อัพเดท</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+    <!-- Scripts -->
+    <script src="assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="module" src="assets/js/report.js"></script>
+
+</body>
+
+</html>

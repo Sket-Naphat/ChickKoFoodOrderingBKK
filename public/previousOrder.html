@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>ChickKo BKK</title>
+
+  <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="assets/css/styles.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navigation-->
+  <!-- ใช้ div เพื่อโหลด navbar -->
+  <!-- <div id="navbar-container"></div> -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-chickkored">
+    <div class="container px-4 px-lg-5">
+      <a class="navbar-brand" href="index.html">
+        <img src="assets/img/ChickKoLogoText.jpg" alt="CHICK KO" style="height: 40px;">
+      </a>
+      <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <li class="nav-item"><a class="nav-link text-light" href="index.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link text-light" href="orderPage.html">Order</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">Admin</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="reportPage.html">report</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item" href="workTimeCalPage.html">คำนวณค่าแรง</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item" href="menuSetupPage.html">Menu Setup</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- Header-->
+  <header class="bg-dark py-2">
+    <div class="container px-4 px-lg-5 my-1">
+      <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">MENU สำหรับเพิ่ม Order ย้อนหลัง</h1>
+        <!-- <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p> -->
+      </div>
+    </div>
+
+
+  </header>
+
+
+   
+
+    <!-- Section-->
+    <form id="orderForm">
+ 
+      
+      <div class="container px-4 px-lg-5 my-1">
+   
+      <ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="all-tab" data-bs-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">ทั้งหมด</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="friedChicken-tab" data-bs-toggle="tab" href="#friedChicken" role="tab" aria-controls="friedChicken" aria-selected="false">ไก่ทอด</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="meal-tab" data-bs-toggle="tab" href="#meal" role="tab" aria-controls="meal" aria-selected="false">กินจริงจัง</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="snack-tab" data-bs-toggle="tab" href="#snack" role="tab" aria-controls="snack" aria-selected="false">ของทานเล่น</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="topping-tab" data-bs-toggle="tab" href="#topping" role="tab" aria-controls="topping" aria-selected="false">Topping</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="dessert-tab" data-bs-toggle="tab" href="#dessert" role="tab" aria-controls="dessert" aria-selected="false">ของหวาน</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="beverage-tab" data-bs-toggle="tab" href="#beverage" role="tab" aria-controls="beverage" aria-selected="false">เครื่องดื่ม</a>
+        </li>
+      </ul>
+           
+    </div>
+
+    <div class="container">
+      <div class="position-relative">
+        <div class="position-absolute top-0 end-0 mt-2 me-4" style="z-index: 1050;">
+          <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <i class="bi-cart-fill me-1"></i>
+            Cart
+            <span id="cardQTY" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+          </button>
+        </div>
+      </div>  
+      <!-- Tab Content -->
+      <div class="tab-content" id="categoryTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="friedChicken" role="tabpanel" aria-labelledby="friedChicken-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menufriedChickenList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="meal" role="tabpanel" aria-labelledby="meal-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuMealList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+       
+        <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuSnackList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+ 
+        <div class="tab-pane fade" id="topping" role="tabpanel" aria-labelledby="topping-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuToppingList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="dessert" role="tabpanel" aria-labelledby="dessert-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuDessertList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="beverage" role="tabpanel" aria-labelledby="beverage-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuBeverageList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+
+  <!-- Footer-->
+  <footer class="py-3 bg-chickkored mt-auto">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; CHICK KO FOOD ORDERING by SKET 2024</p>
+    </div>
+  </footer>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="false" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">รถเข็นของคุณ</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="orderForm">
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-text">ชื่อ</span>
+              <input type="text" id="customerName" aria-label="Name" class="form-control">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-text">วันที่เพิ่มเมนู</span>
+                <input type="date" id="dateInput" class="form-control">
+              </div>
+              <br>
+            <div class="text-center">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio1"
+                  value="forHere" checked>
+                <label class="form-check-label" for="locationRadio1">ทานที่ร้าน</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio2"
+                  value="takeAway">
+                <label class="form-check-label" for="locationRadio2">สั่งกลับบ้าน</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio3" value="Grab">
+                <label class="form-check-label" for="locationRadio3">Grab</label>
+              </div>
+            </div>
+
+            <br>
+            <!-- รถเข็น -->
+            <div id="cart">
+              <ul id="cartItems" class="list-group"></ul>
+              <div id="total" class="mt-3">ยอดรวม: 0.00 THB</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            <button type="button" id="orderSubmit" class="btn btn-success">ยืนยัน Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JS-->
+  <script src="assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="assets/js/scripts.js"></script>
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="assets/js/previousOrder.js"></script>
+</body>
+
+</html>
