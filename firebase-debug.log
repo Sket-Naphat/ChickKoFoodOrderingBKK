@@ -1,0 +1,45 @@
+[debug] [2025-08-30T02:04:56.162Z] ----------------------------------------------------------------------
+[debug] [2025-08-30T02:04:56.170Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Naphat.su\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2025-08-30T02:04:56.170Z] CLI Version:   14.12.1
+[debug] [2025-08-30T02:04:56.170Z] Platform:      win32
+[debug] [2025-08-30T02:04:56.170Z] Node Version:  v22.16.0
+[debug] [2025-08-30T02:04:56.171Z] Time:          Sat Aug 30 2025 09:04:56 GMT+0700 (เวลาอินโดจีน)
+[debug] [2025-08-30T02:04:56.171Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-08-30T02:04:56.173Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2025-08-30T02:04:56.386Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-08-30T02:04:56.387Z] > authorizing via signed-in user (sket.naphat@gmail.com)
+[debug] [2025-08-30T02:04:56.387Z] [iam] checking project chick-ko-bkk for permissions ["datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2025-08-30T02:04:56.388Z] Checked if tokens are valid: false, expires at: 1756090620406
+[debug] [2025-08-30T02:04:56.388Z] Checked if tokens are valid: false, expires at: 1756090620406
+[debug] [2025-08-30T02:04:56.388Z] > refreshing access token with scopes: []
+[debug] [2025-08-30T02:04:56.389Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-08-30T02:04:56.389Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-30T02:05:18.232Z] *** [apiv2] error from fetch(https://firebase-public.firebaseio.com/cli.json, {"headers":{},"method":"GET"}): FetchError: request to https://firebase-public.firebaseio.com/cli.json failed, reason: 
+[warn] !  Unable to fetch the CLI MOTD and remote config. This is not a fatal error, but may indicate an issue with your network connection. 
+[debug] [2025-08-30T02:05:18.234Z] Failed to fetch MOTD FirebaseError: Failed to make request to https://firebase-public.firebaseio.com/cli.json
+[debug] [2025-08-30T02:05:19.532Z] *** [apiv2] error from fetch(https://www.googleapis.com/oauth2/v3/token, {"headers":{},"method":"POST","body":{"_overheadLength":545,"_valueLength":212,"_valuesToMeasure":[],"writable":false,"readable":true,"dataSize":0,"maxDataSize":2097152,"pauseStreams":true,"_released":true,"_streams":[],"_currentStream":null,"_insideLoop":false,"_pendingNext":false,"_boundary":"--------------------------33ca7feb1747af229cfbde1c","_events":{},"_eventsCount":1}}): FetchError: request to https://www.googleapis.com/oauth2/v3/token failed, reason: 
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2025-08-30T02:05:19.533Z] [iam] error while checking permissions, command may fail: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2025-08-30T02:05:19.535Z] Checked if tokens are valid: false, expires at: 1756090620406
+[debug] [2025-08-30T02:05:19.535Z] Checked if tokens are valid: false, expires at: 1756090620406
+[debug] [2025-08-30T02:05:19.535Z] > refreshing access token with scopes: []
+[debug] [2025-08-30T02:05:19.535Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-08-30T02:05:19.535Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-08-30T02:05:42.664Z] *** [apiv2] error from fetch(https://www.googleapis.com/oauth2/v3/token, {"headers":{},"method":"POST","body":{"_overheadLength":545,"_valueLength":212,"_valuesToMeasure":[],"writable":false,"readable":true,"dataSize":0,"maxDataSize":2097152,"pauseStreams":true,"_released":true,"_streams":[],"_currentStream":null,"_insideLoop":false,"_pendingNext":false,"_boundary":"--------------------------36b486e258d47fbcdb9f5a2f","_events":{},"_eventsCount":1}}): FetchError: request to https://www.googleapis.com/oauth2/v3/token failed, reason: 
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2025-08-30T02:05:42.666Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2025-08-30T02:05:47.692Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\Naphat.su\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:273:49)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[error] 
+[error] Error: An unexpected error has occurred.
