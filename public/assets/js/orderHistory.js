@@ -774,6 +774,10 @@ function displayCurrnetOrder(orderData) {
                         break;
                     case "t4": tableNumberText = "โต๊ะ 4"
                         break;
+                    case "t5": tableNumberText = "โต๊ะ 5"
+                        break;
+                    case "t6": tableNumberText = "โต๊ะ 6"
+                        break;
                     case "tw": tableNumberText = "รอโต๊ะ"
                         break;
                     default: tableNumberText = "รอโต๊ะ"
@@ -830,6 +834,8 @@ function displayCurrnetOrder(orderData) {
                             <option value="t2" ${item.tableNumber === 't2' ? 'selected' : ''}>โต๊ะ 2</option>
                             <option value="t3" ${item.tableNumber === 't3' ? 'selected' : ''}>โต๊ะ 3</option>
                             <option value="t4" ${item.tableNumber === 't4' ? 'selected' : ''}>โต๊ะ 4</option>
+                            <option value="t5" ${item.tableNumber === 't5' ? 'selected' : ''}>โต๊ะ 5</option>
+                            <option value="t6" ${item.tableNumber === 't6' ? 'selected' : ''}>โต๊ะ 6</option>
                             <option value="tw" ${item.tableNumber === 'tw' ? 'selected' : ''}>รอโต๊ะ</option>
                             <option value="ta" ${item.tableNumber === 'ta' ? 'selected' : ''}>กลับบ้าน</option>
                         </select>
