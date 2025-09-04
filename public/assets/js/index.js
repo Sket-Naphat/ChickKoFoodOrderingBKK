@@ -1,11 +1,7 @@
-// Import the necessary Firebase SDKs
-import { collection, query, where, getDocs, doc, updateDoc, getDoc, addDoc, deleteDoc, orderBy } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { db } from "./firebaseConfig.js";
+// Import Firebase functions and centralized config
+import { collection, getDocs, addDoc, query, where } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { db } from './firebaseConfig.js';
 // import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const cartItems = [];
 const cartToppingItems = [];
@@ -14,6 +10,9 @@ const cartToppingList = document.getElementById("cartToppingItems");
 const totalDisplay = document.getElementById("total");
 const totalToppingDisplay = document.getElementById("totalTopping");
 const cardQTY = document.getElementById("cardQTY");
+
+// Make cartItems globally accessible
+window.cartItems = cartItems;
 
 
 // Fetch the menu when the page loads
@@ -361,23 +360,52 @@ function sendOrderToKitchen() {
     // แปลงเวลาให้อยู่ในรูปแบบ HH:mm:ss
     const orderTime = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
 
+    // Update itemDischarge for all items if payment is confirmed
+    let updatedItems = cartItems.map(item => ({
+        ...item,
+        itemDischarge: window.orderWithPayment || false
+    }));
+
+    // Calculate total amount (with discount if applied)
+    let totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    let finalAmount = totalAmount;
+    let discountAmount = 0;
+    
+    if (window.orderWithPayment && window.discountApplied) {
+        discountAmount = totalAmount * 0.1; // 10% discount
+        finalAmount = totalAmount - discountAmount;
+    }
+
+    console.log('Order Data - Total:', totalAmount, 'Discount:', discountAmount, 'Final:', finalAmount, 'DiscountApplied:', window.discountApplied);
+
     //Send to kitchen
     const orderData = {
         customerName: customerName,
-        items: cartItems,
+        items: updatedItems,
         locationOrder: locationOrder,
-        discharge: false,
+        discharge: window.orderWithPayment || false,
+        dischargeType: window.orderWithPayment ? (window.dischargeType || '') : '',
         finishedOrder: false,
         orderDate: orderDate,
         orderTime: orderTime,
-        dischargeTime: '',
+        dischargeTime: window.orderWithPayment ? orderTime : '',
         finishedOrderTime: '',
         remark: orderRemark,
-        tableNumber: tableNumber
+        tableNumber: tableNumber,
+        totalAmount: totalAmount,
+        discountAmount: discountAmount,
+        finalAmount: finalAmount,
+        discountApplied: window.orderWithPayment ? (window.discountApplied || false) : false
     };
 
     try {
         addOrder(orderData);
+        
+        // Reset payment flags
+        window.orderWithPayment = false;
+        window.discountApplied = false;
+        window.dischargeType = '';
+        
         Swal.fire({
             title: "บันทึกสำเร็จ !",
             icon: "success",
@@ -538,4 +566,245 @@ function removeToppingFromCart(id) {
 
     const addButton = $(`.add-topping[data-id="${id}"]`);
     addButton.show(); // ซ่อนปุ่ม
+}
+
+// Payment Modal functionality
+let currentTotal = 0;
+let discountApplied = false;
+
+// Make discount accessible globally
+window.discountApplied = false;
+
+// Show/hide scroll to top button and manage cart button position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+  const cartButtonContainer = document.getElementById('cartButtonContainer');
+  const scrollY = window.scrollY;
+  
+  // Handle scroll to top button
+  if (scrollY > 300) {
+    scrollToTopBtn.style.display = 'block';
+  } else {
+    scrollToTopBtn.style.display = 'none';
+  }
+  
+  // Handle cart button position
+  if (scrollY > 150) {
+    // When scrolled down, stick to top
+    cartButtonContainer.style.top = '20px';
+  } else {
+    // When at top, return to original position (25% from top)
+    cartButtonContainer.style.top = '';
+  }
+});
+
+// Scroll to top functionality
+document.getElementById('scrollToTopBtn').addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// Show payment modal when orderSubmitWithPurchase is clicked
+document.getElementById('orderSubmitWithPurchase').addEventListener('click', function() {
+  // Validate form first
+  const customerName = document.getElementById('customerName').value.trim();
+  if (!customerName) {
+    Swal.fire({
+      title: "ใส่ชื่อ หรือ หมายเลขโต๊ะ",
+      icon: "warning"
+    });
+    return;
+  }
+
+  // Check if cart has items
+  if (window.cartItems && window.cartItems.length === 0) {
+    Swal.fire({
+      title: "กรุณาเพิ่มสินค้าในรถเข็นก่อนยืนยัน Order",
+      icon: "warning"
+    });
+    return;
+  }
+
+  // Copy data to payment modal
+  document.getElementById('paymentCustomerName').value = customerName;
+  updatePaymentModal();
+  
+  // Close cart modal and show payment modal
+  const cartModal = bootstrap.Modal.getInstance(document.getElementById('staticBackdrop'));
+  if (cartModal) {
+    cartModal.hide();
+  }
+  
+  setTimeout(() => {
+    const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    paymentModal.show();
+  }, 300);
+});
+
+// Calculate change button
+document.getElementById('calculateChangeBtn').addEventListener('click', function() {
+  const total = discountApplied ? currentTotal * 0.9 : currentTotal;
+  document.getElementById('totalAmount').value = total.toFixed(2);
+  
+  const changeModal = new bootstrap.Modal(document.getElementById('changeModal'));
+  changeModal.show();
+});
+
+// Apply discount button
+document.getElementById('applyDiscountBtn').addEventListener('click', function() {
+  discountApplied = !discountApplied;
+  window.discountApplied = discountApplied; // Update global variable
+  updatePaymentModal();
+  
+  const btn = document.getElementById('applyDiscountBtn');
+  if (discountApplied) {
+    btn.textContent = 'ยกเลิกส่วนลด';
+    btn.className = 'btn btn-warning';
+  } else {
+    btn.textContent = 'คิดส่วนลด 10%';
+    btn.className = 'btn btn-info';
+  }
+});
+
+// Calculate change functionality
+document.getElementById('calculateChange').addEventListener('click', function() {
+  const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
+  const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+  const change = receivedAmount - totalAmount;
+  
+  if (change >= 0) {
+    document.getElementById('changeResult').textContent = `เงินทอน: ${change.toFixed(2)} THB`;
+    document.getElementById('changeResult').className = 'alert alert-success fs-5';
+  } else {
+    document.getElementById('changeResult').textContent = `ขาด: ${Math.abs(change).toFixed(2)} THB`;
+    document.getElementById('changeResult').className = 'alert alert-danger fs-5';
+  }
+});
+
+// Auto calculate change when received amount changes
+document.getElementById('receivedAmount').addEventListener('input', function() {
+  document.getElementById('calculateChange').click();
+});
+
+// Discharge submit from payment modal
+document.getElementById('dischargeSubmit').addEventListener('click', function() {
+  submitOrderWithPayment();
+});
+
+// Discharge submit from change modal
+document.getElementById('dischargeChangeSubmit').addEventListener('click', function() {
+  const receivedAmount = parseFloat(document.getElementById('receivedAmount').value) || 0;
+  const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+  
+  if (receivedAmount < totalAmount) {
+    alert('จำนวนเงินที่รับไม่เพียงพอ');
+    return;
+  }
+  
+  // Close change modal
+  const changeModal = bootstrap.Modal.getInstance(document.getElementById('changeModal'));
+  if (changeModal) {
+    changeModal.hide();
+  }
+  
+  submitOrderWithPayment();
+});
+
+function updatePaymentModal() {
+  // Get cart items from the global variable
+  if (!window.cartItems) return;
+  
+  const paymentOrderItems = document.getElementById('paymentOrderItems');
+  paymentOrderItems.innerHTML = '';
+  currentTotal = 0;
+
+  window.cartItems.forEach(item => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = `
+      ${item.name} ${item.remark ? '(' + item.remark + ')' : ''} (x${item.quantity}) - ฿${(item.price * item.quantity).toFixed(2)}
+    `;
+    paymentOrderItems.appendChild(li);
+    currentTotal += item.price * item.quantity;
+  });
+
+  // Update totals
+  document.getElementById('paymentTotal').textContent = `ยอดรวม: ${currentTotal.toFixed(2)} THB`;
+  
+  if (discountApplied) {
+    const discountedTotal = currentTotal * 0.9;
+    document.getElementById('paymentTotalWithDiscount').textContent = `หลังหักส่วนลด 10%: ${discountedTotal.toFixed(2)} THB`;
+    document.getElementById('paymentTotalWithDiscount').style.display = 'block';
+  } else {
+    document.getElementById('paymentTotalWithDiscount').style.display = 'none';
+  }
+}
+
+async function submitOrderWithPayment() {
+  console.log('submitOrderWithPayment called, discountApplied:', discountApplied);
+  
+  // แสดง Swal เพื่อยืนยันการจ่ายเงิน
+  const result = await Swal.fire({
+    title: "ยืนยันการจ่ายเงิน?",
+    text: "คุณต้องการเลือกวิธีการชำระเงินสำหรับออเดอร์นี้หรือไม่?",
+    icon: "warning",
+    showCancelButton: true,
+    showDenyButton: true,
+    confirmButtonColor: "#3085d6",
+    denyButtonColor: "#f39c12", 
+    cancelButtonColor: "#d33",
+    confirmButtonText: "โอนจ่าย ,ยืนยัน",
+    denyButtonText: "เงินสด ,ยืนยัน",
+    cancelButtonText: "ยกเลิก",
+  });
+
+  if (result.isConfirmed) {
+    // โอนจ่าย
+    window.orderWithPayment = true;
+    window.discountApplied = discountApplied; // Use local discountApplied value
+    window.dischargeType = 'Promptpay';
+    
+    console.log('Promptpay selected, window.discountApplied:', window.discountApplied);
+    
+    // Close payment modal
+    const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+    if (paymentModal) {
+      paymentModal.hide();
+    }
+    
+    // Close change modal if open
+    const changeModal = bootstrap.Modal.getInstance(document.getElementById('changeModal'));
+    if (changeModal) {
+      changeModal.hide();
+    }
+    
+    // Call sendOrderToKitchen directly
+    sendOrderToKitchen();
+    
+  } else if (result.isDenied) {
+    // เงินสด
+    window.orderWithPayment = true;
+    window.discountApplied = discountApplied; // Use local discountApplied value
+    window.dischargeType = 'Cash';
+    
+    console.log('Cash selected, window.discountApplied:', window.discountApplied);
+    
+    // Close payment modal
+    const paymentModal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+    if (paymentModal) {
+      paymentModal.hide();
+    }
+    
+    // Close change modal if open
+    const changeModal = bootstrap.Modal.getInstance(document.getElementById('changeModal'));
+    if (changeModal) {
+      changeModal.hide();
+    }
+    
+    // Call sendOrderToKitchen directly
+    sendOrderToKitchen();
+  }
+  // ถ้ายกเลิก ไม่ทำอะไร
 }
