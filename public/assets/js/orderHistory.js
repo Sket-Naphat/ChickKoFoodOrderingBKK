@@ -31,15 +31,89 @@ const cartList = document.getElementById("cartItems");
 const cartToppingList = document.getElementById("cartToppingItems");
 const totalDisplay = document.getElementById("total");
 const totalToppingDisplay = document.getElementById("totalTopping");
-window.onload = getCurrentOrder;
+window.onload = () => getCurrentOrder();
 
 $(document).ready(function () {
-    // ดึงออเดอร์เมื่อโหลดหน้า
+   
+    
+    // ตั้งค่าวันที่เริ่มต้นเป็นวันปัจจุบัน
+    const today = new Date().toISOString().split('T')[0];
+    $("#searchDate").val(today);
+    
+    // Event handler สำหรับปุ่มค้นหา
+    $("#searchOrderBtn").on("click", function() {
+        const selectedDate = $("#searchDate").val();
+        if (selectedDate) {
+            // ตรวจสอบรูปแบบวันที่
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (dateRegex.test(selectedDate)) {
+                getCurrentOrder(selectedDate);
+            } else {
+                Swal.fire({
+                    title: "รูปแบบวันที่ไม่ถูกต้อง",
+                    text: "กรุณาเลือกวันที่ให้ถูกต้อง",
+                    icon: "warning"
+                });
+            }
+        } else {
+            Swal.fire({
+                title: "กรุณาเลือกวันที่",
+                text: "กรุณาเลือกวันที่ที่ต้องการค้นหา",
+                icon: "warning"
+            });
+        }
+    });
+    
+    // Event handler สำหรับปุ่มล้างการค้นหา
+    $("#clearSearchBtn").on("click", function() {
+        const today = new Date().toISOString().split('T')[0];
+        $("#searchDate").val(today);
+        getCurrentOrder(); // แสดง order วันปัจจุบัน (ไม่ส่ง parameter)
+        
+        Swal.fire({
+            title: "ล้างการค้นหาเรียบร้อย",
+            text: "กลับไปแสดงข้อมูลวันปัจจุบัน",
+            icon: "success",
+            timer: 1000,
+            showConfirmButton: false
+        });
+    });
+    
+    // Event handler สำหรับ Enter key ใน input วันที่
+    $("#searchDate").on("keypress", function(e) {
+        if (e.which === 13) { // Enter key
+            e.preventDefault(); // ป้องกันการ submit form
+            $("#searchOrderBtn").click();
+        }
+    });
+    
+    // Event handler สำหรับการเปลี่ยนแปลงวันที่
+    $("#searchDate").on("change", function() {
+        const selectedDate = $(this).val();
+        if (selectedDate) {
+            const today = new Date().toISOString().split('T')[0];
+            if (selectedDate === today) {
+                // ถ้าเลือกวันปัจจุบัน ให้โหลดโดยไม่ส่ง parameter
+                getCurrentOrder();
+            }
+        }
+    });
+     // ดึงออเดอร์เมื่อโหลดหน้า
     getCurrentOrder();
     // ตรวจสอบว่า Firebase SDK ถูกนำเข้าไว้แล้ว
 
     $("#currentOrderPanels").on("click", ".btn-update-rollback", async function () {
         const id = $(this).data("id");  // ดึง id ของออเดอร์จาก data-id ของปุ่ม
+
+        // ตรวจสอบว่าปุ่มถูก disabled หรือไม่
+        if ($(this).prop('disabled')) {
+            Swal.fire({
+                title: "ไม่สามารถดำเนินการได้",
+                text: "สามารถนำ order กลับได้เฉพาะในวันปัจจุบันเท่านั้น",
+                icon: "warning",
+            });
+            return;
+        }
 
         if (!id) {
             Swal.fire({
@@ -709,15 +783,45 @@ $(document).ready(function () {
       });
       
 });
-async function getCurrentOrder() {
+async function getCurrentOrder(searchDate = "") {
+    console.log("🔍 getCurrentOrder called with searchDate:", searchDate, "Type:", typeof searchDate);
+    
+    // ตรวจสอบและทำความสะอาด parameter
+    if (typeof searchDate !== 'string') {
+        console.warn("⚠️ searchDate is not a string, converting to empty string");
+        searchDate = "";
+    }
+    
+    console.log("🔥 Firebase db object:", db);
+    
     const now = new Date();
-    const orderDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-
-    // สร้าง query เพื่อดึงข้อมูล orders
-    const orderCollectionRef = collection(db, "orders");
-    const ordersQuery = query(orderCollectionRef, where("orderDate", "==", orderDate));
-
+    let orderDate;
+    
+    if (searchDate && searchDate.trim() !== "") {
+        orderDate = searchDate.trim();
+    } else {
+        orderDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    }
+    
+    console.log("📅 Using orderDate:", orderDate, "Type:", typeof orderDate);
+    
+    // ตรวจสอบว่า db object มีอยู่จริง
+    if (!db) {
+        console.error("❌ Database object is not available");
+        Swal.fire({
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถเชื่อมต่อฐานข้อมูลได้",
+            icon: "error"
+        });
+        return;
+    }
+    
     try {
+        // สร้าง query เพื่อดึงข้อมูล orders
+        const orderCollectionRef = collection(db, "orders");
+        console.log("📁 Collection reference:", orderCollectionRef);
+        const ordersQuery = query(orderCollectionRef, where("orderDate", "==", orderDate));
+        
         const orderSnapshot = await getDocs(ordersQuery);
         const currentOrderList = orderSnapshot.docs.map(doc => ({
             id: doc.id,
@@ -730,8 +834,54 @@ async function getCurrentOrder() {
             openAccordions[item.id] = true;
         });
 
-        // แสดงข้อมูล order
-        displayCurrnetOrder(currentOrderList);
+        // อัปเดตหัวข้อให้แสดงวันที่
+        const headerTitle = document.querySelector("header h1");
+        if (headerTitle) {
+            headerTitle.textContent = `Order ที่ปิดไปแล้ว - วันที่ ${orderDate}`;
+        }
+
+        // ตรวจสอบว่าเป็นวันปัจจุบันหรือไม่
+        const today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+        const isToday = orderDate === today;
+
+        // ตรวจสอบว่าพบข้อมูลหรือไม่
+        if (currentOrderList.length === 0) {
+            // แสดงหน้าว่างเมื่อไม่พบข้อมูล
+            const currentOrderContainer = document.getElementById("currentOrderPanels");
+            currentOrderContainer.innerHTML = `
+                <div class="text-center p-5">
+                    <div class="alert alert-info">
+                        <h4 class="text-muted">ไม่พบ order ในวันที่ ${orderDate}</h4>
+                        <p class="text-muted mb-0">ลองเลือกวันที่อื่นหรือกดปุ่ม "ล้างการค้นหา" เพื่อดูข้อมูลวันปัจจุบัน</p>
+                    </div>
+                </div>
+            `;
+            
+            // แสดงข้อความแจ้งเตือนเฉพาะเมื่อค้นหาด้วยวันที่เฉพาะ
+            if (searchDate && searchDate !== "") {
+                Swal.fire({
+                    title: "ไม่พบข้อมูล",
+                    text: `ไม่พบ order ในวันที่ ${orderDate}`,
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        } else {
+            // แสดงข้อมูล order ที่พบ
+            displayCurrnetOrder(currentOrderList, isToday);
+            
+            // แสดงข้อความยืนยันเฉพาะเมื่อค้นหาด้วยวันที่เฉพาะ
+            if (searchDate && searchDate !== "") {
+                Swal.fire({
+                    title: "พบข้อมูล",
+                    text: `พบ ${currentOrderList.length} order ในวันที่ ${orderDate}`,
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        }
 
         // คืนค่าการแสดงผล accordion ที่เปิดอยู่
         Object.keys(openAccordions).forEach(id => {
@@ -743,10 +893,15 @@ async function getCurrentOrder() {
         });
     } catch (error) {
         console.error("Error fetching orders: ", error);
+        Swal.fire({
+            title: "เกิดข้อผิดพลาด",
+            text: "ไม่สามารถดึงข้อมูล order ได้",
+            icon: "error"
+        });
     }
 }
 
-function displayCurrnetOrder(orderData) {
+function displayCurrnetOrder(orderData, isToday = true) {
     const currentOrderContainer = document.getElementById("currentOrderPanels");
     currentOrderContainer.innerHTML = ""; // ล้างข้อมูลเก่า
 
@@ -757,7 +912,7 @@ function displayCurrnetOrder(orderData) {
     });
     
     sortedOrders.forEach(item => {
-        if (item.discharge === true && item.finishedOrder === true) {
+        if (isToday && item.discharge === true && item.finishedOrder === true) {
             // กำหนดสีพื้นหลังและข้อความตามสถานะ
             let bgColor = 'bg-success-subtle';
             let locationOrderText = "กลับบ้าน";
@@ -809,6 +964,10 @@ function displayCurrnetOrder(orderData) {
                 const subtotal = price * quantity;
                 total += subtotal;
             })
+
+            // กำหนดสถานะปุ่ม "นำกลับ" ตามวันที่
+            const rollbackButtonDisabled = isToday ? '' : 'disabled';
+            const rollbackButtonTitle = isToday ? '' : 'title="สามารถนำกลับได้เฉพาะวันปัจจุบันเท่านั้น"';
  
  
 
@@ -877,7 +1036,144 @@ function displayCurrnetOrder(orderData) {
                      <div class="d-flex justify-content-between align-items-center">
                      <div id="total" class=" fs-3 fw-bold">ยอดรวม:  ${total.toFixed(2)} THB</div>            
                      <div>
-                            <button type="button" class="btn btn-warning btn-update-rollback" data-id="${item.id}">นำกลับ</button>
+                            <button type="button" class="btn btn-warning btn-update-rollback" data-id="${item.id}" ${rollbackButtonDisabled} ${rollbackButtonTitle}>นำกลับ</button>
+                        </div>            
+                    </div>
+                    
+                  </div>
+                </div>
+            `;
+
+            // เพิ่ม accordion item ลงใน container
+            currentOrderContainer.appendChild(orderItem);
+        }
+        else if (!isToday) {
+            // กำหนดสีพื้นหลังและข้อความตามสถานะ
+            let bgColor = 'bg-success-subtle';
+            let locationOrderText = "กลับบ้าน";
+            let tableNumberText = "";
+            if (item.locationOrder === 'forHere') {
+                bgColor = 'bg-info-subtle';
+
+                switch (item.tableNumber) {
+                    case "t1": tableNumberText = "โต๊ะ 1"
+                        break;
+                    case "t2": tableNumberText = "โต๊ะ 2"
+                        break;
+                    case "t3": tableNumberText = "โต๊ะ 3"
+                        break;
+                    case "t4": tableNumberText = "โต๊ะ 4"
+                        break;
+                    case "t5": tableNumberText = "โต๊ะ 5"
+                        break;
+                    case "t6": tableNumberText = "โต๊ะ 6"
+                        break;
+                    case "tw": tableNumberText = "รอโต๊ะ"
+                        break;
+                    default: tableNumberText = "รอโต๊ะ"
+                        break;
+                }
+
+                locationOrderText = tableNumberText ;
+            } else if (item.locationOrder === 'takeAway') {
+                bgColor = 'bg-success-subtle';
+                locationOrderText = "กลับบ้าน";
+            }
+
+            let bgDischargeColor = 'btn-warning';
+            let bgFinishedOrderColor = 'btn-warning';
+            if (item.discharge === true) {
+                bgDischargeColor = 'btn-success';
+                //bgColor = 'bg-success text-white ';
+            }
+            // if (item.finishedOrder === true) {
+            //     bgFinishedOrderColor = 'btn-success';
+            //     bgColor = 'bg-warning';
+            // }
+
+            let total = 0;
+            item.items.forEach(item => {
+                const price = parseFloat(item.price) || 0;
+                const quantity = parseInt(item.quantity, 10) || 0;
+    
+                const subtotal = price * quantity;
+                total += subtotal;
+            })
+
+            // กำหนดสถานะปุ่ม "นำกลับ" ตามวันที่
+            const rollbackButtonDisabled = isToday ? '' : 'disabled';
+            const rollbackButtonTitle = isToday ? '' : 'title="สามารถนำกลับได้เฉพาะวันปัจจุบันเท่านั้น"';
+ 
+            if (item.discharge === false || item.finishedOrder === false) {
+                bgColor = 'bg-warning-subtle';
+            }
+
+            
+            // สร้าง HTML สำหรับแต่ละ accordion item
+            const orderItem = document.createElement("div");
+            orderItem.classList.add("accordion-item");
+            orderItem.innerHTML = `
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed ${bgColor}" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-${item.id}" aria-expanded="false" aria-controls="panelsStayOpen-${item.id}">
+                    ชื่อ : ${item.customerName} | เวลาสั่งซื้อ : ${item.orderTime} | ${locationOrderText}
+                  </button>
+                </h2>
+                <div id="panelsStayOpen-${item.id}" class="accordion-collapse collapse">
+                  <div class="accordion-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>รายการ :</strong>
+
+                        <div class="d-flex align-items-center">
+                        <select class="form-select me-2 table-select" style="width: auto;" data-id="${item.id}" disabled>
+                            <option value="t1" ${item.tableNumber === 't1' ? 'selected' : ''}>โต๊ะ 1</option>
+                            <option value="t2" ${item.tableNumber === 't2' ? 'selected' : ''}>โต๊ะ 2</option>
+                            <option value="t3" ${item.tableNumber === 't3' ? 'selected' : ''}>โต๊ะ 3</option>
+                            <option value="t4" ${item.tableNumber === 't4' ? 'selected' : ''}>โต๊ะ 4</option>
+                            <option value="t5" ${item.tableNumber === 't5' ? 'selected' : ''}>โต๊ะ 5</option>
+                            <option value="t6" ${item.tableNumber === 't6' ? 'selected' : ''}>โต๊ะ 6</option>
+                            <option value="tw" ${item.tableNumber === 'tw' ? 'selected' : ''}>รอโต๊ะ</option>
+                            <option value="ta" ${item.tableNumber === 'ta' ? 'selected' : ''}>กลับบ้าน</option>
+                        </select>
+                        <button type="button" class="btn btn-primary btn-add-more-order" data-id="${item.id}" data-customer="${item.customerName}" disabled>เพิ่มเมนู</button>
+                    </div>
+                    </div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ชื่อรายการ</th>
+                          <th>จำนวน</th>
+                          <th>ทำแล้ว</th>
+                          <th>ราคา</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${item.items.map((i, index) => `
+                          <tr>
+                            <td>${i.name} ${i.remark && i.remark.trim() !== '' ? `(${i.remark})` : ''}</td>
+                            <td>${i.quantity}</td>
+                            <td>
+                                <input type="checkbox" class="item-checkbox" data-id="${item.id}" data-index="${index}" ${i.done ? 'checked' : ''} disabled>
+                            </td>
+      
+                             <td>
+                               ${i.price} THB
+                            </td>
+                          </tr>
+                           
+                        `).join('')}
+                      </tbody>
+                    </table>
+
+                    <div class="form-floating position-relative">
+                        <textarea class="form-control pe-5" placeholder="ใส่หมายเหตุ" id="orderRemark-${item.id}" style="height: 100px" disabled>${item.remark}</textarea>
+                        <label for="orderRemark-${item.id}">หมายเหตุ</label>
+                    </div>
+                   
+                     <div class="d-flex justify-content-between align-items-center">
+                     <div id="total" class=" fs-3 fw-bold">ยอดรวม:  ${total.toFixed(2)} THB</div>            
+                     <div>
+                            <button type="button" class="btn btn-warning btn-update-rollback" data-id="${item.id}" ${rollbackButtonDisabled} ${rollbackButtonTitle}>นำกลับ</button>
                         </div>            
                     </div>
                     

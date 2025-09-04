@@ -57,13 +57,20 @@
   <!-- Header-->
   <header class="bg-dark py-2">
     <div class="container px-4 px-lg-5 my-1">
-      <div class="text-center text-white">
-        <h1 class="display-4 fw-bolder">MENU สำหรับเพิ่ม Order ย้อนหลัง</h1>
+      <div class="text-white">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="flex-grow-1 text-center">
+            <h4 class="display-7 fw-bolder mb-0">MENU สำหรับเพิ่ม Order ย้อนหลัง</h4>
+          </div>
+          <div class="flex-shrink-0">
+            <a href="orderHistoryPage.html" class="btn btn-outline-secondary">
+              <img src="assets/img/history.png" alt="History" width="auto" height="40">
+            </a>
+          </div>
+        </div>
         <!-- <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p> -->
       </div>
     </div>
-
-
   </header>
 
 
@@ -84,6 +91,9 @@
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="meal-tab" data-bs-toggle="tab" href="#meal" role="tab" aria-controls="meal" aria-selected="false">กินจริงจัง</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="noodle-tab" data-bs-toggle="tab" href="#noodle" role="tab" aria-controls="noodle" aria-selected="false">เมนูเส้น</a>
         </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="snack-tab" data-bs-toggle="tab" href="#snack" role="tab" aria-controls="snack" aria-selected="false">ของทานเล่น</a>
@@ -135,6 +145,15 @@
           <section class="py-2">
             <div class="container px-4 px-lg-5 mt-5">
               <div id="menuMealList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- สินค้า -->
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="noodle" role="tabpanel" aria-labelledby="noodle-tab">
+          <section class="py-2">
+            <div class="container px-4 px-lg-5 mt-5">
+              <div id="menuNoodleList" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <!-- สินค้า -->
               </div>
             </div>
@@ -210,28 +229,35 @@
             </div>
             <br>
             <div class="input-group">
-                <span class="input-group-text">วันที่เพิ่มเมนู</span>
+                <span class="input-group-text">วันที่ขาย</span>
                 <input type="date" id="dateInput" class="form-control">
               </div>
               <br>
-            <div class="text-center">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio1"
-                  value="forHere" checked>
-                <label class="form-check-label" for="locationRadio1">ทานที่ร้าน</label>
+              <div class="input-group">
+                <span class="input-group-text">เวลาที่ขาย</span>
+                <input type="time" id="timeInput" class="form-control">
               </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio2"
-                  value="takeAway">
-                <label class="form-check-label" for="locationRadio2">สั่งกลับบ้าน</label>
+              <br>
+            <div class="input-group">
+                <span class="input-group-text">เลขโต๊ะ</span>
+                <select class="form-select" id="tableSelect">
+                  <option value="tw" selected>รอโต๊ะ</option>
+                  <option value="t1">โต๊ะ 1</option>
+                  <option value="t2">โต๊ะ 2</option>
+                  <option value="t3">โต๊ะ 3</option>
+                  <option value="t4">โต๊ะ 4</option>
+                  <option value="t5">โต๊ะ 5</option>
+                  <option value="t6">โต๊ะ 6</option>
+                  <option value="ta">กลับบ้าน</option>
+                  <option value="grab">Grab</option>
+                </select>
               </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="locationRadioOptions" id="locationRadio3" value="Grab">
-                <label class="form-check-label" for="locationRadio3">Grab</label>
+              <br>
+            <div class="input-group">
+                <span class="input-group-text">หมายเหตุ</span>
+                <textarea class="form-control" id="orderRemark" placeholder="หมายเหตุเพิ่มเติม..."></textarea>
               </div>
-            </div>
-
-            <br>
+              <br>
             <!-- รถเข็น -->
             <div id="cart">
               <ul id="cartItems" class="list-group"></ul>
@@ -241,6 +267,63 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
             <button type="button" id="orderSubmit" class="btn btn-success">ยืนยัน Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Topping Modal -->
+  <div class="modal fade" id="addToppingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addToppingModalLabel" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-chickkored text-white">
+          <h1 class="modal-title fs-5" id="addToppingModalLabel">เลือกท้อปปิ้ง</h1>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="addToppingForm">
+          <div class="modal-body">
+            <div class="input-group mb-3 align-items-center">
+              <label for="addMenuName" class="input-group-text fw-bold">ชื่อเมนู:</label>
+              <input type="text" id="addMenuName" class="form-control bg-light border-1" placeholder="ชื่อเมนู" disabled>
+            </div>
+            <div class="input-group mb-3 align-items-center">
+              <label for="addMenuPrice" class="input-group-text fw-bold">ราคา:</label>
+              <input type="text" id="addMenuPrice" class="form-control bg-light border-1" placeholder="ราคา" disabled>
+              <span class="input-group-text fw-bold">THB</span>
+            </div>
+            <!-- รถเข็นท้อปปิ้ง -->
+            <span class="fw-bold mb-2 d-block">ท้อปปิ้งที่เพิ่ม</span>
+            <div id="cartTopping" class="mb-3">
+              <ul id="cartToppingItems" class="list-group border rounded p-2" style="max-height: 200px; overflow-y: auto;">
+                <!-- Added Topping Items -->
+              </ul>
+              <div id="totalTopping" class="fw-bold mt-3">ราคารวมท้อปปิ้ง : 0.00 THB</div>
+            </div>
+            <div class="input-group mb-3 align-items-center">
+              <label for="addMenuQTY" class="input-group-text fw-bold">จำนวน :</label>
+              <button class="btn btn-outline-secondary" type="button" id="decreaseQty">-</button>
+              <input type="number" min="1" id="addMenuQTY" class="form-control text-center bg-light border-1" inputmode="numeric" value="1">
+              <button class="btn btn-outline-secondary" type="button" id="increaseQty">+</button>
+            </div>
+            <div class="input-group mb-3 align-items-center">
+              <label for="addMenuRemark" class="input-group-text fw-bold">หมายเหตุ :</label>
+              <input type="text" id="addMenuRemark" class="form-control bg-light border-1" placeholder="หมายเหตุ เช่น เผ็ดน้อย , ไม่ใส่อะไร">
+            </div>
+            <!-- ปุ่มยืนยัน -->
+            <div class="text-end mb-3">
+              <button type="button" id="addToppingSubmit" class="btn btn-success w-100">เพิ่มเมนู</button>
+            </div>
+            <span class="fw-bold mb-2 d-block">เลือกท้อปปิ้ง</span>
+            <div class="tab-pane fade show active" id="allTopping" role="tabpanel" aria-labelledby="allTopping-tab">
+              <ul id="allToppingList" class="list-group">
+                <!-- All Topping Items -->
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
           </div>
         </form>
       </div>

@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log
+firebase-debug.*
+firebase.json
+serviceAccount*.json
+*.serviceAccount.json
+chickkoapp-firebase-adminsdk-*.json
+
+# Build
+dist/
+build/
+
+# VSCode
+.vscode/
+
+# Env and secret
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# OS
+.DS_Store
+Thumbs.db

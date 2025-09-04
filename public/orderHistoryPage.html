@@ -73,6 +73,40 @@
           </div>
         </div>
       </header>
+    
+    <!-- Search Criteria Section -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-chickkored text-white">
+                        <h5 class="mb-0">ค้นหา Order</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label for="searchDate" class="form-label fw-bold">เลือกวันที่:</label>
+                                <input type="date" class="form-control" id="searchDate">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="button" class="btn btn-primary w-100" id="searchOrderBtn">
+                                    <i class="bi bi-search"></i> ค้นหา
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearSearchBtn">
+                                    ล้างการค้นหา
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <br>
     <div class="container">
         <div class="accordion" id="currentOrderPanels">
